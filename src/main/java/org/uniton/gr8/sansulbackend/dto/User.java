@@ -21,13 +21,13 @@ public class User {
     private String name;
 
     @Column(name = "billed_price")
-    private int billedPrice;
+    private Integer billedPrice;
 
     @Column(name = "is_paid")
     private boolean isPaid;
 
     @Column(name = "room_id")
-    private int roomId;
+    private Integer roomId;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tag",
