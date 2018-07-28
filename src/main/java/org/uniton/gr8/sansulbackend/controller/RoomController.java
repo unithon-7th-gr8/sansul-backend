@@ -49,23 +49,23 @@ public class RoomController {
     public TotalData updateRoom(@PathVariable(name = "roomId") int roomId, @RequestBody Price price) {
 
         int price_total = price.getTotalPrice();
-        int price_drink = price.getDrinkPrice();
-        int price_snack = price.getSnackPrice();
+//        int price_drink = price.getDrinkPrice();
+//        int price_snack = price.getSnackPrice();
 
         if(price_total == 0)
             throw new IllegalStateException();
 
-        if(price_snack + price_drink == 0) {
-            price_snack = price_total / 2;
-            price_drink = price_total - price_snack;
-        }
+//        if(price_snack + price_drink == 0) {
+//            price_snack = price_total / 2;
+//            price_drink = price_total - price_snack;
+//        }
 
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalStateException("방 번호 잘못 입력함 "));
 
         room.setTotalPrice(price_total);
-        room.setDrinkPrice(price_drink != 0 ? price_drink : price_total - price_snack);
-        room.setSnackPrice(price_snack != 0 ? price_snack : price_total - price_drink);
+//        room.setDrinkPrice(price_drink != 0 ? price_drink : price_total - price_snack);
+//        room.setSnackPrice(price_snack != 0 ? price_snack : price_total - price_drink);
 
         room.setRoomStatus(RoomStatus.CLOSED);
 
