@@ -1,7 +1,7 @@
 package org.uniton.gr8.sansulbackend.domain;
 
 public enum TagType {
-    LATE(0);
+    LATE(1), NO_DRINK(2), EARLY(3);
 
     private final int value;
 
@@ -11,7 +11,9 @@ public enum TagType {
 
     public static TagType valueOf(int value){
         switch (value){
-            case 0: return LATE;
+            case 1: return LATE;
+            case 2: return NO_DRINK;
+            case 3: return EARLY;
             default: throw new IllegalStateException(value + "는 TagType이 아닙니다.");
         }
     }
