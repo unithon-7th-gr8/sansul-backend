@@ -11,6 +11,10 @@ public enum RoomStatus {
         this.value = value;
     }
 
+    public int getValue() {
+        return value;
+    }
+
     public static RoomStatus valueOf(int value) {
         return Stream.of(RoomStatus.values())
                      .filter(status -> status.value == value)
