@@ -32,12 +32,17 @@ public class UserServiceDup implements UserService{
     }
 
     @Override
-    public List<UserData> findUserBy(int roomId) {
+    public List<User> findUserBy(int roomId) {
         return userServiceImpl.findUserBy(roomId);
     }
 
     @Override
     public void deleteUser(int userId) {
         userServiceImpl.deleteUser(userId);
+    }
+
+    @Override
+    public User updateUser(int userId) {
+        return userServiceImpl.updateUser(userId);
     }
 }

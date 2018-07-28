@@ -36,14 +36,17 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public List<UserData> findUserBy(int roomId){
-        List<UserData> list = new ArrayList<>();
+    public User updateUser(int userId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException());
 
-        userRepository.findAllByRoomId(roomId).stream()
-                .map(this::toUserData)
-                .forEach(list::add);
+        user.setPaid(true);
+        user = userRepository.save(user);
+        return user;
+    }
 
-        return list;
+    public List<User> findUserBy(int roomId){
+
+        return userRepository.findAllByRoomId(roomId);
     }
 
     public void deleteUser(int userId){
@@ -55,6 +58,7 @@ public class UserServiceImpl implements UserService {
         return User.builder()
                 .name(rawUser.getName())
                 .roomId(rawUser.getRoomId())
+                .isPaid(false)
                 .build();
     }
 

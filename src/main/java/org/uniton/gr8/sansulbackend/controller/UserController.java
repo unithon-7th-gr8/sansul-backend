@@ -21,7 +21,7 @@ public class UserController {
     @Autowired private UserService userService;
 
     @RequestMapping(value = "{roomId}/users", method = RequestMethod.GET)
-    public List<UserData> users(@PathVariable("roomId") int roomId){
+    public List<User> users(@PathVariable("roomId") int roomId){
         return userService.findUserBy(roomId);
     }
 
@@ -42,4 +42,10 @@ public class UserController {
         userService.deleteUser(userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @RequestMapping(value = "{roomId}/users/{userId}", method = RequestMethod.PUT)
+    public User updateUser(@PathVariable("roomId") int roomId, @PathVariable("userId") int userId){
+        return userService.updateUser(userId);
+    }
+
 }

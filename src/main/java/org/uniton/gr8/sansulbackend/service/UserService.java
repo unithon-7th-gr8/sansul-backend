@@ -13,6 +13,7 @@ import java.util.List;
 public interface UserService {
 
     User addUser(RawUser rawUser);
-    List<UserData> findUserBy(int roomId);
+    List<User> findUserBy(int roomId);
     void deleteUser(int userId);
+    User updateUser(int userId);
 }
