@@ -7,6 +7,7 @@ import org.uniton.gr8.sansulbackend.domain.RoomStatus;
 import org.uniton.gr8.sansulbackend.dto.Room;
 import org.uniton.gr8.sansulbackend.dto.User;
 import org.uniton.gr8.sansulbackend.repository.RoomRepository;
+import org.uniton.gr8.sansulbackend.service.CalculationService;
 import org.uniton.gr8.sansulbackend.service.RoomService;
 import org.uniton.gr8.sansulbackend.service.UserService;
 import org.uniton.gr8.sansulbackend.vo.Price;
@@ -23,6 +24,8 @@ public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
     @Autowired private UserService userService;
+    @Autowired
+    private CalculationService calculationService;
 
     @PostMapping("/rooms")
     @ResponseStatus(HttpStatus.CREATED)
@@ -68,7 +71,7 @@ public class RoomController {
 
         roomRepository.save(room);
 
-        // 계산 로직
+        calculationService.calculate(roomId);
 
         return roomService.makeToTalData(roomId);
     }
