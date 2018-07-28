@@ -7,6 +7,10 @@ import org.uniton.gr8.sansulbackend.dto.User;
 import org.uniton.gr8.sansulbackend.dto.UserHasTag;
 import org.uniton.gr8.sansulbackend.repository.UserRepository;
 import org.uniton.gr8.sansulbackend.vo.RawUser;
+import org.uniton.gr8.sansulbackend.vo.UserData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private UserHasTagService userHasTagService;
 
     @Override
-    public int addUser(RawUser rawUser) {
+    public User addUser(RawUser rawUser) {
 
         final User user = userRepository.save(toUser(rawUser));
 
@@ -29,14 +33,43 @@ public class UserServiceImpl implements UserService {
                         .build())
                 .forEach(userHasTagService::addUserHasTag);
 
-        return user.getUserId();
+        return user;
     }
 
-    public User toUser(RawUser rawUser) {
+    public List<UserData> findUserBy(int roomId){
+        List<UserData> list = new ArrayList<>();
+
+        userRepository.findAllByRoomId(roomId).stream()
+                .map(this::toUserData)
+                .forEach(list::add);
+
+        return list;
+    }
+
+    public void deleteUser(int userId){
+        userRepository.deleteById(userId);
+    }
+
+    private User toUser(RawUser rawUser) {
 
         return User.builder()
                 .name(rawUser.getName())
                 .roomId(rawUser.getRoomId())
+                .build();
+    }
+
+    private UserData toUserData(User user){
+        List<String> tags = new ArrayList<>();
+
+        user.getTags().stream()
+                .map(tag -> TagType.valueOf(tag.getTagId()))
+                .map(tag -> tag.name())
+                .forEach(tags::add);
+
+        return UserData.builder()
+                .name(user.getName())
+                .userId(user.getUserId())
+                .tags(tags)
                 .build();
     }
 }
