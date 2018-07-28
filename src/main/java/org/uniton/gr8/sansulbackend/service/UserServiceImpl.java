@@ -44,9 +44,15 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public List<User> findUserBy(int roomId){
+    public List<UserData> findUserBy(int roomId){
 
-        return userRepository.findAllByRoomId(roomId);
+        List<UserData> list = new ArrayList<>();
+
+        userRepository.findAllByRoomId(roomId).stream()
+                .map(this::toUserData)
+                .forEach(list::add);
+
+        return list;
     }
 
     public void deleteUser(int userId){
@@ -68,9 +74,15 @@ public class UserServiceImpl implements UserService {
         user.getTags().stream()
                 .map(tag -> TagType.valueOf(tag.getTagId()))
                 .map(tag -> tag.name())
+
+
                 .forEach(tags::add);
 
         return UserData.builder()
+                .userId(user.getUserId())
+                .billedPrice(user.getBilledPrice())
+                .isPaid(user.isPaid())
+                .roomId(user.getRoomId())
                 .name(user.getName())
                 .userId(user.getUserId())
                 .tags(tags)

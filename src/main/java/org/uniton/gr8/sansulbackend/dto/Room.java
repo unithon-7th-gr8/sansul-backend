@@ -21,7 +21,6 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roomId;
 
-    // FIXME: converter 추가해야
     @Enumerated(EnumType.STRING)
     private RoomStatus roomStatus;
 

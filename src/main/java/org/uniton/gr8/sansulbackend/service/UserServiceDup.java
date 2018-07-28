@@ -32,7 +32,7 @@ public class UserServiceDup implements UserService{
     }
 
     @Override
-    public List<User> findUserBy(int roomId) {
+    public List<UserData> findUserBy(int roomId) {
         return userServiceImpl.findUserBy(roomId);
     }
 

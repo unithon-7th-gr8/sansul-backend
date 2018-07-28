@@ -21,7 +21,7 @@ public class User {
     private String name;
 
     @Column(name = "billed_price")
-    private Integer billedPrice;
+    private int billedPrice;
 
     @Column(name = "is_paid")
     private boolean isPaid;
@@ -29,8 +29,8 @@ public class User {
     @Column(name = "room_id")
     private Integer roomId;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "tag",
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_has_tag",
             joinColumns =  @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
