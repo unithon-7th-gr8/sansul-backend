@@ -1,5 +1,6 @@
 package org.uniton.gr8.sansulbackend.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,15 +9,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.uniton.gr8.sansulbackend.service.RoomService;
 import org.uniton.gr8.sansulbackend.vo.RawRoom;
 
 @CrossOrigin(origins = "*")
 @RestController
 public class RoomController {
+    @Autowired
+    private RoomService roomService;
+
     @PostMapping("/rooms")
     @ResponseStatus(HttpStatus.CREATED)
     public int createRoom() {
-        int roomId = 0;
+        int roomId = roomService.createRoom();
         return roomId;
     }
 
