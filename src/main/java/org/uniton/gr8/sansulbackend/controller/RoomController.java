@@ -2,21 +2,26 @@ package org.uniton.gr8.sansulbackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.uniton.gr8.sansulbackend.dto.Room;
+import org.uniton.gr8.sansulbackend.dto.User;
+import org.uniton.gr8.sansulbackend.repository.RoomRepository;
 import org.uniton.gr8.sansulbackend.service.RoomService;
+import org.uniton.gr8.sansulbackend.service.UserService;
+import org.uniton.gr8.sansulbackend.vo.Price;
 import org.uniton.gr8.sansulbackend.vo.RawRoom;
+import org.uniton.gr8.sansulbackend.vo.TotalData;
+
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
 public class RoomController {
     @Autowired
     private RoomService roomService;
+    @Autowired
+    private RoomRepository roomRepository;
+    @Autowired private UserService userService;
 
     @PostMapping("/rooms")
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,18 +31,34 @@ public class RoomController {
     }
 
     @GetMapping("/rooms/{roomId}")
-    public String getRoom(@PathVariable(name = "roomId") int roomId) {
-        // FIXME: room id에 해당하는 room이 없으면 exception
-        return "";
+    public TotalData room(@PathVariable(name = "roomId") int roomId) {
+        return roomService.makeToTalData(roomId);
     }
 
     @PutMapping("/rooms/{roomId}")
-    public RawRoom updateRoom(@PathVariable(name = "roomId") int roomId) {
-        RawRoom rawRoom = new RawRoom();
-        rawRoom.setRoomId(0);
-        rawRoom.setTotalPrice(10000);
-        rawRoom.setDrinkPrice(5000);
-        rawRoom.setSnackPrice(5000);
-        return rawRoom;
+    public Room updateRoom(@PathVariable(name = "roomId") int roomId, @RequestBody Price price) {
+
+        int price_total = price.getTotalPrice();
+        int price_drink = price.getDrinkPrice();
+        int price_snack = price.getSnackPrice();
+
+        if(price_total == 0)
+            throw new IllegalStateException();
+
+        if(price_snack + price_drink == 0) {
+            price_snack = price_total / 2;
+            price_drink = price_total - price_snack;
+        }
+
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalStateException("방 번호 잘못 입력함 "));
+
+        room.setTotalPrice(price_total);
+        room.setDrinkPrice(price_drink != 0 ? price_drink : price_total - price_snack);
+        room.setSnackPrice(price_snack != 0 ? price_snack : price_total - price_drink);
+
+        roomRepository.save(room);
+
+        return room;
     }
 }

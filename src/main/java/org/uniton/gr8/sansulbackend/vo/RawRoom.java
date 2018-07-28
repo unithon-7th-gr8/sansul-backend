@@ -11,6 +11,7 @@ import org.uniton.gr8.sansulbackend.dto.Room;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RawRoom {
+
     private int roomId;
     private int totalPrice;
     private int drinkPrice;
@@ -24,6 +25,4 @@ public class RawRoom {
         rawRoom.setSnackPrice(room.getSnackPrice());
         return rawRoom;
     }
-
-
 }

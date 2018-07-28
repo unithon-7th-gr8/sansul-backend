@@ -11,5 +11,8 @@ public class UserData {
 
     private int userId;
     private String name;
+    private int billedPrice;
+    private boolean isPaid;
+    private int roomId;
     private List<String> tags;
 }

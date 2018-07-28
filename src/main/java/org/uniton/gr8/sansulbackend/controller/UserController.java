@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.uniton.gr8.sansulbackend.dto.User;
+import org.uniton.gr8.sansulbackend.repository.UserRepository;
 import org.uniton.gr8.sansulbackend.service.UserService;
 import org.uniton.gr8.sansulbackend.vo.RawUser;
 import org.uniton.gr8.sansulbackend.vo.UserData;
@@ -19,9 +20,13 @@ import java.util.Map;
 public class UserController {
 
     @Autowired private UserService userService;
+    @Autowired private UserRepository userRepository;
 
     @RequestMapping(value = "{roomId}/users", method = RequestMethod.GET)
-    public List<User> users(@PathVariable("roomId") int roomId){
+    public List<UserData> users(@PathVariable("roomId") int roomId){
+
+        System.out.println(userRepository.findAllByRoomId(roomId));
+
         return userService.findUserBy(roomId);
     }
 
