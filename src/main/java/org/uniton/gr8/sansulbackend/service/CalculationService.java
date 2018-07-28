@@ -70,7 +70,7 @@ public class CalculationService {
     private void applyNormalPrice(List<User> users, int price) {
         users.forEach(user -> {
             int billedPrice = user.getBilledPrice();
-            user.setBilledPrice(billedPrice + (int) (price * (1 - getDiscountRatio(user))));
+            user.setBilledPrice(billedPrice + (int) ((double) price * (1.0 - getDiscountRatio(user))));
             userRepository.saveAndFlush(user);
         });
     }
@@ -100,10 +100,14 @@ public class CalculationService {
     }
 
     private double getDiscountRatio(User user) {
+        if (CollectionUtils.isEmpty(user.getTags())) {
+            return 0.0;
+        }
         return user.getTags().stream()
                    .map(Tag::getRatio)
                    .reduce((x, y) -> x + y)
-                   .filter(o -> o < 1)
-                   .orElse(1.0);
+                   .map(o -> Math.min(1.0, o))
+                   .orElse(0.0);
+
     }
 }
