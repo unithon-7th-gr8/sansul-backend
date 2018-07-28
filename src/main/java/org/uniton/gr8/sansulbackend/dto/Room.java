@@ -5,15 +5,24 @@ import org.uniton.gr8.sansulbackend.domain.RoomStatus;
 
 import javax.persistence.*;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
-@Entity
 @Data
+@Entity
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roomId;
 
     // FIXME: converter 추가해야
+    @Enumerated(EnumType.STRING)
     private RoomStatus roomStatus;
 
     @Column(name = "total_price")
