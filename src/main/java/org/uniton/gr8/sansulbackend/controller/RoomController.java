@@ -36,7 +36,7 @@ public class RoomController {
     }
 
     @PutMapping("/rooms/{roomId}")
-    public Room updateRoom(@PathVariable(name = "roomId") int roomId, @RequestBody Price price) {
+    public TotalData updateRoom(@PathVariable(name = "roomId") int roomId, @RequestBody Price price) {
 
         int price_total = price.getTotalPrice();
         int price_drink = price.getDrinkPrice();
@@ -59,6 +59,8 @@ public class RoomController {
 
         roomRepository.save(room);
 
-        return room;
+        // 계산 로직
+
+        return roomService.makeToTalData(roomId);
     }
 }

@@ -25,8 +25,6 @@ public class UserController {
     @RequestMapping(value = "{roomId}/users", method = RequestMethod.GET)
     public List<UserData> users(@PathVariable("roomId") int roomId){
 
-        System.out.println(userRepository.findAllByRoomId(roomId));
-
         return userService.findUserBy(roomId);
     }
 
