@@ -1,5 +1,6 @@
 package org.uniton.gr8.sansulbackend.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 public class User {
 
     @Id
@@ -24,7 +26,7 @@ public class User {
     private boolean isPaid;
 
     @Column(name = "room_id")
-    private int room_id;
+    private int roomId;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tag",

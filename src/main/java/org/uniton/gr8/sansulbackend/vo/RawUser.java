@@ -1,15 +1,14 @@
 package org.uniton.gr8.sansulbackend.vo;
 
-import lombok.NonNull;
+import lombok.Data;
 import lombok.Value;
 
-import javax.validation.Valid;
 import java.util.List;
 
-@Value
+@Data
 public class RawUser {
 
-    @NonNull private String name;
-    @NonNull private int roomId;
-    @NonNull private List<String> tags;
+    private String name;
+    private int roomId;
+    private List<String> tags;
 }
