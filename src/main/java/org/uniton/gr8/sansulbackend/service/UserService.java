@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 public interface UserService {
 
+    boolean isAllPaid(int roomId);
     User addUser(RawUser rawUser);
     List<UserData> findUserBy(int roomId);
     void deleteUser(int userId);

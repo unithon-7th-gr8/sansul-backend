@@ -3,7 +3,7 @@ package org.uniton.gr8.sansulbackend.domain;
 import java.util.stream.Stream;
 
 public enum RoomStatus {
-    OPEN(1), CLOSED(2);
+    OPEN(1), CLOSED(2), FINISH(3);
 
     private int value;
 

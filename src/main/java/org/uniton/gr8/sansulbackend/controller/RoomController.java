@@ -3,6 +3,7 @@ package org.uniton.gr8.sansulbackend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.uniton.gr8.sansulbackend.domain.RoomStatus;
 import org.uniton.gr8.sansulbackend.dto.Room;
 import org.uniton.gr8.sansulbackend.dto.User;
 import org.uniton.gr8.sansulbackend.repository.RoomRepository;
@@ -32,6 +33,12 @@ public class RoomController {
 
     @GetMapping("/rooms/{roomId}")
     public TotalData room(@PathVariable(name = "roomId") int roomId) {
+
+        if(userService.isAllPaid(roomId)){
+            Room room = roomRepository.findById(roomId).orElse(null);
+            room.setRoomStatus(RoomStatus.FINISH);
+        }
+
         return roomService.makeToTalData(roomId);
     }
 
@@ -56,6 +63,8 @@ public class RoomController {
         room.setTotalPrice(price_total);
         room.setDrinkPrice(price_drink != 0 ? price_drink : price_total - price_snack);
         room.setSnackPrice(price_snack != 0 ? price_snack : price_total - price_drink);
+
+        room.setRoomStatus(RoomStatus.CLOSED);
 
         roomRepository.save(room);
 

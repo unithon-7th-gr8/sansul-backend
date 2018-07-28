@@ -35,6 +35,9 @@ public class UserServiceDup implements UserService{
     public List<UserData> findUserBy(int roomId) {
         return userServiceImpl.findUserBy(roomId);
     }
+    public boolean isAllPaid(int roomId){
+        return userServiceImpl.isAllPaid(roomId);
+    }
 
     @Override
     public void deleteUser(int userId) {

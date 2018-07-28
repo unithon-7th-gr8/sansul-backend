@@ -55,6 +55,14 @@ public class UserServiceImpl implements UserService {
         return list;
     }
 
+    public boolean isAllPaid(int roomId){
+        boolean result = true;
+        for(User user : userRepository.findAllByRoomId(roomId))
+            result = result && user.isPaid();
+
+        return result;
+    }
+
     public void deleteUser(int userId){
         userRepository.deleteById(userId);
     }
